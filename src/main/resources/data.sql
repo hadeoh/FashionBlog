@@ -1,0 +1,1 @@
+INSERT into designs (id, title) VALUE (1, 1);
