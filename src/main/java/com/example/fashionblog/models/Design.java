@@ -8,6 +8,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -32,12 +33,11 @@ public class Design {
     @NotBlank
     private String imageUrl;
 
-    @Column(columnDefinition = "default 0")
-    private Integer likes;
+    private Integer likes = 0;
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "design_id")
-    private List<Comment> comment;
+    private List<Comment> comments;
 
     @CreationTimestamp
     private Timestamp createdAt;
@@ -45,7 +45,12 @@ public class Design {
     @UpdateTimestamp
     private Timestamp updatedAt;
 
-    public Design() {
+
+    public void addComments(Comment theComment) {
+        if (comments == null) {
+            comments = new ArrayList<>();
+        }
+        comments.add(theComment);
     }
 
     public Integer getId() {
@@ -104,13 +109,11 @@ public class Design {
         this.updatedAt = updatedAt;
     }
 
-    public List<Comment> getComment() {
-        return comment;
+    public List<Comment> getComments() {
+        return comments;
     }
 
-    public void setComment(List<Comment> comment) {
-        this.comment = comment;
+    public void setComments(List<Comment> comments) {
+        this.comments = comments;
     }
-
-
 }

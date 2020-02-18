@@ -1,8 +1,10 @@
 package com.example.fashionblog.models;
 
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.sql.Timestamp;
@@ -15,11 +17,12 @@ public class Comment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @ManyToOne
-    private Design design;
+//    @ManyToOne
+//    private Design design;
 
     @NotBlank
     @NotNull
+    @Email
     private String email;
 
     @NotBlank
@@ -28,10 +31,16 @@ public class Comment {
 
     @NotBlank
     @NotNull
+    @Length(max = 500)
     private String content;
 
     @CreationTimestamp
     private Timestamp createdAt;
+
+    @Override
+    public String toString() {
+        return "Comment[id = " + id + ", comment = " + content + "]";
+    }
 
     public Integer getId() {
         return id;
@@ -41,13 +50,13 @@ public class Comment {
         this.id = id;
     }
 
-    public Design getDesign() {
-        return design;
-    }
-
-    public void setDesign(Design design) {
-        this.design = design;
-    }
+//    public Design getDesign() {
+//        return design;
+//    }
+//
+//    public void setDesign(Design design) {
+//        this.design = design;
+//    }
 
     public String getEmail() {
         return email;
